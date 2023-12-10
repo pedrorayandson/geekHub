@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Publicacao;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,7 +28,15 @@ class UserController extends Controller
 
             } elseif ($userType == 3) {
 
-                return redirect("/admin");
+                $filme = Publicacao::where('tipo_publi', 1)->latest()->first();
+                $jogo = Publicacao::where('tipo_publi', 2)->latest()->first();
+                $livro = Publicacao::where('tipo_publi', 3)->latest()->first();
+            
+                return view('users.indexAdmin', [
+                    'filme' => $filme,
+                    'jogo' => $jogo,
+                    'livro' => $livro
+                ]);
 
             }
         } else {
