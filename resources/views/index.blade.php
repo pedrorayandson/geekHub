@@ -26,8 +26,8 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
   <!-- Template Main CSS Files -->
-  <link href="assets/css/variables.css" rel="stylesheet">
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="{{asset('css/variables.css')}}" rel="stylesheet">
+  <link href="{{asset('css/main.css')}}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: ZenBlog
@@ -49,6 +49,26 @@
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>ZenBlog</h1>
       </a>
+      @if (Auth::check())
+      <div class="position-relative">
+        <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
+        <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
+        <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
+
+        <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+
+        <!-- ======= Search Form ======= -->
+        <div class="search-form-wrap js-search-form-wrap">
+          <form action="search-result.html" class="search-form">
+            <span class="icon bi-search"></span>
+            <input type="text" placeholder="Search" class="form-control">
+            <button class="btn js-search-close"><span class="bi-x"></span></button>
+          </form>
+        </div><!-- End Search Form -->
+
+      </div>
+      @else
       <div class="position-relative">
         <a href="#" class="mx-2 js-search-open"></a>
         <a href="login"><button type="button" class="btn btn-outline-secondary">Login</button></a>
@@ -62,6 +82,7 @@
         </div><!-- End Search Form -->
 
       </div>
+      @endif
 
     </div>
 
@@ -690,7 +711,7 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="{{asset('js/main.js')}}"></script>
 
 </body>
 

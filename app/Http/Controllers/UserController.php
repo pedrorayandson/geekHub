@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -48,12 +49,12 @@ class UserController extends Controller
         $email = $request->post('email');
         $date = Carbon::parse($request->input('date')); // manipular datas
         $password = $request->post('password');
-        $tp_user = 1;
+        $tp_user = ($request->post('tipo_user') == null ? 1 : $request->post('tipo_user'));
         $user = User::create([
             'name' => $name,
             'email' => $email,
             'date' => $date,
-            'password' => bcrypt($password),
+            'password' => Hash::make($password),
             'tipo_user' => $tp_user, 
         ]);
         return redirect("/users");
@@ -61,7 +62,7 @@ class UserController extends Controller
 
 
     }
-    public function storeUser(Request $request)
+    /* public function storeUser(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -85,8 +86,13 @@ class UserController extends Controller
             'tipo_user' => $tp_user, 
         ]);
         return redirect("/admin");
+    } */
 
+    public function logout(){
+        if(Auth::check()){
+            Auth::logout();
+        }
 
-
+        return redirect('/');
     }
 }

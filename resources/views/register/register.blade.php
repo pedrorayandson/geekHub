@@ -26,9 +26,9 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
   <!-- Template Main CSS Files -->
-  <link href="assets/css/variables.css" rel="stylesheet">
-  <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/register.css" rel="stylesheet">
+  <link href="{{asset('css/variables.css')}}" rel="stylesheet">
+  <link href="{{asset('css/main.css')}}" rel="stylesheet">
+  <link href="{{asset('css/register.css')}}" rel="stylesheet">
 
 
   <!-- =======================================================
@@ -101,7 +101,15 @@
                 <input type="text" id="password" class="fadeIn second" name="password" placeholder="digite sua senha">
                 <br>
                 <br>
-                <input type="submit" class="fadeIn fourth" value="Cadraste-se">
+                @if (Auth::check() && Auth::user()->tipo_user == 3)
+                    <select class="selectUser" name="tipo_user" id="tipo_user">
+                        <option class="optionUser" value="2">Crítico</option>
+                        <option class="optionUser" value="3">Admin</option>
+                    </select>
+                    <br>
+                    <br>
+                @endif
+                <input type="submit" class="fadeIn fourth" value="Cadastre-se">
             </form>
 
         
@@ -118,7 +126,7 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="{{asset('js/main.js')}}"></script>
 
 </body>
 

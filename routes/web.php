@@ -49,4 +49,5 @@ Route::get('/registerUser', function () {
     return view('register.registerUser');
 })->name('registerUser');
 Route::post('/registerUser', [UserController::class, 'storeUser']);
+Route::get('/logout', [UserController::class, 'logout']);
 

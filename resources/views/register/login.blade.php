@@ -26,9 +26,9 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
   <!-- Template Main CSS Files -->
-  <link href="assets/css/variables.css" rel="stylesheet">
-  <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/register.css" rel="stylesheet">
+  <link href="{{asset('css/variables.css')}}" rel="stylesheet">
+  <link href="{{asset('css/main.css')}}" rel="stylesheet">
+  <link href="{{asset('css/register.css')}}" rel="stylesheet">
 
 
   <!-- =======================================================
@@ -109,7 +109,7 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="{{asset('js/main.js')}}"></script>
 
 </body>
 
