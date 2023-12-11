@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('titulo');
             $table->string('sinopse');
             $table->binary('img');
+            $table->string('trailer_url');
             $table->foreign('tipo_publi')->references('id')->on('tipo_publicacaos');
             $table->timestamps();
         });

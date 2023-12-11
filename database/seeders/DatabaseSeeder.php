@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
        
        
         \App\Models\TipoUser::factory()->create([
-            'tipo_user' => 'cliente'
+            'tipo_user' => 'comum'
         ]);
         \App\Models\TipoUser::factory()->create([
             'tipo_user' => 'crítico'
@@ -44,6 +44,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123123123'),
             'date' => '2023-04-23',
             'tipo_user' => '3',
+        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'User',
+            'email' => 'user@user.com',
+            'password' => Hash::make('123123123'),
+            'date' => '2023-04-23',
+            'tipo_user' => '1',
         ]);
     }
 }

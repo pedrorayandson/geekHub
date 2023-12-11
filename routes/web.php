@@ -22,9 +22,8 @@ Route::get('/', function () {
 Route::get('/users', function () {
     return view('users.index');
 });
-Route::get('/admin', function () {
-    return view('users.indexAdmin');
-});
+Route::get('/admin', [UserController::class, 'indexAdmin']);
+
 Route::get('/login', function () {
     return view('register.login');
 })->name('login'); ;
@@ -40,14 +39,17 @@ Route::get('/registerAdmin', function () {
     return view('cadastro.register');
 });
 
-Route::get('/createPubli', function () {
-    return view('cadastro.publicacao');
-})->name('createPubli');
+Route::get('/createPubli', [PublicacaoController::class, 'create'])->name('createPubli');
+
 Route::post('/createPubli', [PublicacaoController::class, 'store']);
+
+Route::get('/publicacao/{id}', [PublicacaoController::class, 'show']);
 
 Route::get('/registerUser', function () {
     return view('register.registerUser');
 })->name('registerUser');
+
 Route::post('/registerUser', [UserController::class, 'storeUser']);
+
 Route::get('/logout', [UserController::class, 'logout']);
 

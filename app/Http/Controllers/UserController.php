@@ -97,6 +97,13 @@ class UserController extends Controller
         return redirect("/admin");
     } */
 
+    public function indexAdmin()
+    {
+        $this->authorize('adminHome', Auth::user());
+        
+        return view('users.indexAdmin');
+    }
+
     public function logout(){
         if(Auth::check()){
             Auth::logout();
