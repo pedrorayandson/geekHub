@@ -19,6 +19,6 @@ class Publicacao extends Model
         'sinopse',
         'tipo_publi',
         'img',
-        'trailer_url'
+        'iframe_trailer'
     ];
 }

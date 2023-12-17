@@ -26,7 +26,7 @@
         <label for="img">Imagem:</label>
         <input type="file" name="img" id="img" required accept="image/*">
 
-        <label for="trailer">Trailer</label>
+        <label for="trailer">Iframe do Trailer</label>
         <input type="text" name="trailer" required>
 
         <button type="submit">cadastrar</button>

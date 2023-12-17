@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PublicacaoController;
+use App\Http\Controllers\ResenhaController;
 use App\Models\Publicacao;
 
 /*
@@ -39,9 +40,9 @@ Route::get('/registerAdmin', function () {
     return view('cadastro.register');
 });
 
-Route::get('/createPubli', [PublicacaoController::class, 'create'])->name('createPubli');
+Route::get('/create/publicacao', [PublicacaoController::class, 'create'])->name('createPubli');
 
-Route::post('/createPubli', [PublicacaoController::class, 'store']);
+Route::post('/create/publicacao', [PublicacaoController::class, 'store']);
 
 Route::get('/publicacao/{id}', [PublicacaoController::class, 'show']);
 
@@ -52,4 +53,6 @@ Route::get('/registerUser', function () {
 Route::post('/registerUser', [UserController::class, 'storeUser']);
 
 Route::get('/logout', [UserController::class, 'logout']);
+
+Route::post('/store/resenha', [ResenhaController::class, 'store']);
 

@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Publicacao;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 return new class extends Migration
 {
@@ -17,7 +19,7 @@ return new class extends Migration
             $table->string('titulo');
             $table->string('sinopse');
             $table->binary('img');
-            $table->string('trailer_url');
+            $table->string('iframe_trailer');
             $table->foreign('tipo_publi')->references('id')->on('tipo_publicacaos');
             $table->timestamps();
         });
@@ -27,7 +29,16 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('publicacaos');
+{
+    $pubs = Publicacao::all();
+
+    foreach ($pubs as $pub) {
+        if ($pub->img && Storage::exists('/assets/imgPubli/' . $pub->img)) {
+            Storage::delete('/assets/imgPubli/' . $pub->img);
+        }
     }
+    
+    Schema::dropIfExists('publicacaos');
+
+}
 };

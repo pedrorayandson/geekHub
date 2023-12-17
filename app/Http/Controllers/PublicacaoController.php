@@ -37,7 +37,7 @@ class PublicacaoController extends Controller
             'titulo' => $request->input('titulo'),
             'sinopse' => $request->input('sinopse'),
             'img' => $img,
-            'trailer_url' => $request->post('trailer')
+            'iframe_trailer' => $request->post('trailer')
         ]);
 
         $publicacao->save();
@@ -65,38 +65,48 @@ class PublicacaoController extends Controller
             ->first();
 
         $resenhas_criticos = DB::table('resenhas', 'r')
-            ->join('publicacao', 'publicacao.id', '=', 'r.publi_id')
+            ->join('publicacaos', 'publicacaos.id', '=', 'r.publi_id')
             ->join('users', 'users.id', '=', 'r.user_id')
-            ->where('users.tipo_user', '=', 3);
+            ->where([
+                ['users.tipo_user', '=', 2],
+                ['publicacaos.id', '=', $id],
+            ])
+            ->get('*');
 
         $resenha_publico = DB::table('resenhas', 'r')
-        ->join('publicacao', 'publicacao.id', '=', 'r.publi_id')
+        ->join('publicacaos', 'publicacaos.id', '=', 'r.publi_id')
         ->join('users', 'users.id', '=', 'r.user_id')
-        ->where('users.tipo_user', '=', 1);
+        ->where([
+            ['users.tipo_user', '=', 1],
+            ['publicacaos.id', '=', $id],
+        ])
+        ->get('*');
 
         $nota_crit = 0;
-        $crit_cont = 0;
-        foreach($resenhas_criticos as $resenha)
-        {
-            $nota_crit += $resenha->nota;
-            $crit_cont++;
-        }
+        $crit_cont = $resenhas_criticos->count();
+        if($resenhas_criticos->isNotEmpty()){
+            foreach($resenhas_criticos as $resenha)
+            {
+                $nota_crit += $resenha->nota;
+                $crit_cont++;
+            }
+    }
 
         $nota_pub = 0;
-        $pub_cont = 0;
-        foreach($resenha_publico as $resenha)
-        {
-            $nota_pub += $resenha->nota;
-            $pub_cont++;
-        }
-
-        $media_nota_c = $nota_crit/$crit_cont;
-        $media_nota_p = $nota_pub/$pub_cont;
+        $pub_cont = $resenha_publico->count();
+        if($resenha_publico->isNotEmpty()){
+            foreach($resenha_publico as $resenha)
+            {
+                $nota_pub += $resenha->nota;
+            }
+    }
+    $media_nota_c = ($crit_cont != 0 ? ($nota_crit/$crit_cont) : 0);
+    $media_nota_p = ($pub_cont != 0 ? ($nota_pub/$pub_cont) : 0);
 
         return view('publicacao', [
             'pub' => $pub,
             'resenhas_c' => $resenhas_criticos,
-            'resenha_p' => $resenha_publico,
+            'resenhas_p' => $resenha_publico,
             'media_p' => $media_nota_p,
             'media_c' => $media_nota_c,
             'res_qnt_c' => $crit_cont,

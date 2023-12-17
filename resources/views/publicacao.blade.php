@@ -16,11 +16,11 @@
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
       
         <!-- Vendor CSS Files -->
-        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+        <link href="{{asset('vendor_bt/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{asset('vendor_bt/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+        <link href="{{asset('vendor_bt/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+        <link href="{{asset('vendor_bt/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+        <link href="{{asset('vendor_bt/aos/aos.css')}}" rel="stylesheet">
       
         <!-- Template Main CSS Files -->
         <link href="{{asset('css/variables.css')}}" rel="stylesheet">
@@ -38,30 +38,83 @@
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="card mb-3">
-                    <iframe class="card-img-top" width="560" height="315" src="{{$pub->trailer_url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  <center>
+                    {!!$pub->iframe_trailer!!}
+                  </center>
                     <div class="card-body">
                       <h5 class="card-title">{{$pub->titulo}}</h5>
-                      <p class="card-text">{{$pub->sinopse}}</p>
-                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                      <p class="card-text">Média dos Criticos: {{$media_c}}</p>
+                      <p class="card-text">Média do público: {{$media_p}}</p>
+                      <p class="card-text text-justify">Sinopse: <br>{{$pub->sinopse}}</p>
                     </div>
                   </div>
             </div>
+            <div class="row align-items-start">
+              <small>Críticos</small>
+              @if ($resenhas_c->isNotEmpty())
+                @foreach ($resenhas_c as $r)
+                  <div class="col-12 mt-3 mb-3">
+                    <small class="align-items-top"><i class="bi bi-person-fill"></i> {{$r->name}}</small>
+                    <p>{{$r->descricao}}</p>
+                  </div>
+                @endforeach
+              @else
+                <div class="col"><p class="fst-italic"><i class="bi bi-info-circle"></i> Nenhuma resenha foi registrada ainda</p> </div>
+              @endif
+            </div>
+              @if (Auth::user()->tipo_user == 2)
+                  <div class="row">
+                    <form action="/create/resenha" method="post">
+                      <label for="nota">Nota</label>
+                      <input type="number" name="nota" id=""><br>
+                      <textarea name="resenha" id="" cols="30" rows="10"></textarea><br>
+                      <button class="btn btn-success">Cadastrar</button>
+                    </form>
+                  </div>
+              @endif
+              <div class="">
+                <small>Publico geral</small>
+              @if ($resenhas_p->isNotEmpty())
+                @foreach ($resenhas_p as $r)
+                  <div class="col border-bottom border-top mt-1 mb-1">
+                    <small class="align-items-top"><i class="bi bi-person-fill"></i> {{$r->name}}</small>
+                    <p>{{$r->descricao}}</p>
+                  </div>
+                @endforeach
+              @else
+                <div class="col"><p class="fst-italic"><i class="bi bi-info-circle"></i> Nenhuma resenha foi registrada ainda</p> </div>
+              @endif
+              </div>
+              @if (Auth::user()->tipo_user == 1)
+                  <div class="row mt-2">
+                    <small>Faça sua resenha:</small>
+                    <form action="/store/resenha" method="post">
+                      @csrf
+                      @error('nota')
+                          <span class="text-danger">{{$message}}</span><br>
+                      @enderror
+                      <label for="nota">Nota</label>
+                      <input type="number" name="nota" step="0.01" id=""><br>
+                      @error('resenha')
+                          <span class="text-danger">{{$message}}</span><br>
+                      @enderror
+                      <label for="resenha">Resenha: </label>
+                      <textarea name="resenha" id="" cols="30" rows="10"></textarea><br>
+                      <input type="hidden" name="pub" value="{{$pub->id}}">
+                      <button class="btn btn-success">Cadastrar</button>
+                    </form>
+                  </div>
+              @endif
         </div>
         
     </body>
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script><a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="{{asset('vendor_bt/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{asset('vendor_bt/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{asset('vendor_bt/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{asset('vendor_bt/aos/aos.js')}}"></script>
+  <script src="{{asset('vendor_bt/php-email-form/validate.js')}}"></script>
 
   <!-- Template Main JS File -->
   <script src="{{asset('js/main.js')}}"></script>
