@@ -111,4 +111,51 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function edit($id)
+    {
+        $user = User::find($id);
+
+        $this->authorize('update', $user);
+
+
+        return view('users.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    function update(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'date' => 'required',
+        ]);
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $date = Carbon::parse($request->input('date'));
+        $password = $request->input('password');
+
+        $user = [];
+        if($password == null or $password == ""){
+            $user = [
+                'name' => $name,
+                'email' => $email,
+                'date' => $date,
+            ];
+
+        }else{
+            $user = [
+                'name' => $name,
+                'email' => $email,
+                'date' => $date,
+                'password' => Hash::make($password),
+            ];
+        }
+
+        User::find($id)->update($user);
+
+        
+        return redirect("/");
+    }
 }

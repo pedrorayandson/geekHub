@@ -54,5 +54,13 @@ Route::post('/registerUser', [UserController::class, 'storeUser']);
 
 Route::get('/logout', [UserController::class, 'logout']);
 
+Route::get('/user/{id}', [UserController::class, 'edit']);
+
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.updt');
+
 Route::post('/store/resenha', [ResenhaController::class, 'store']);
+
+Route::get('/teste', function (){
+    return view('single-post');
+});
 

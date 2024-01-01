@@ -36,7 +36,9 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        return $user->id == $model->id ?
+                Response::allow() :
+                Response::deny("Você só pode alterar seus próprios dados!!!");
     }
 
     /**
